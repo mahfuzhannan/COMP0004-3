@@ -11,17 +11,11 @@ public class Patient {
 
     private Gender gender;
 
-    private String prefix;
-
-    private String first;
-
-    private String last;
-
-    private String suffix;
-
     private LocalDate birthDate;
 
     private LocalDate deathDate;
+
+    private Name name;
 
     private Identification identification;
 
@@ -32,15 +26,12 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(UUID id, Gender gender, String prefix, String first, String last, String suffix, LocalDate birthDate, LocalDate deathDate, Identification identification, PatientDetails patientDetails, Address address) {
+    public Patient(UUID id, Gender gender, LocalDate birthDate, LocalDate deathDate, Name name, Identification identification, PatientDetails patientDetails, Address address) {
         this.id = id;
         this.gender = gender;
-        this.prefix = prefix;
-        this.first = first;
-        this.last = last;
-        this.suffix = suffix;
         this.birthDate = birthDate;
         this.deathDate = deathDate;
+        this.name = name;
         this.identification = identification;
         this.patientDetails = patientDetails;
         this.address = address;
@@ -62,38 +53,6 @@ public class Patient {
         this.gender = gender;
     }
 
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public String getFirst() {
-        return first;
-    }
-
-    public void setFirst(String first) {
-        this.first = first;
-    }
-
-    public String getLast() {
-        return last;
-    }
-
-    public void setLast(String last) {
-        this.last = last;
-    }
-
-    public String getSuffix() {
-        return suffix;
-    }
-
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
-    }
-
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -108,6 +67,14 @@ public class Patient {
 
     public void setDeathDate(LocalDate deathDate) {
         this.deathDate = deathDate;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public void setName(Name name) {
+        this.name = name;
     }
 
     public Identification getIdentification() {
