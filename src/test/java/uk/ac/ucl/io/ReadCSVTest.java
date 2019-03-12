@@ -1,0 +1,52 @@
+package uk.ac.ucl.io;
+
+import org.junit.Before;
+import org.junit.Test;
+import uk.ac.ucl.entities.Patient;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.*;
+
+public class ReadCSVTest {
+
+    private ReadCSV readCsv;
+
+    @Before
+    public void setUp() {
+        readCsv = new ReadCSV();
+    }
+
+    @Test
+    public void testGetPatients_100() throws URISyntaxException, IOException {
+        Path csvPath = Paths.get(getClass().getClassLoader().getResource("patients100.csv").toURI());
+        List<Patient> patients = readCsv.getPatients(csvPath);
+        assertThat(patients.size(), equalTo(105));
+    }
+
+    @Test
+    public void testGetPatients_1000() throws URISyntaxException, IOException {
+        Path csvPath = Paths.get(getClass().getClassLoader().getResource("patients1000.csv").toURI());
+        List<Patient> patients = readCsv.getPatients(csvPath);
+        assertThat(patients.size(), equalTo(1116));
+    }
+
+    @Test
+    public void testGetPatients_10000() throws URISyntaxException, IOException {
+        Path csvPath = Paths.get(getClass().getClassLoader().getResource("patients10000.csv").toURI());
+        List<Patient> patients = readCsv.getPatients(csvPath);
+        assertThat(patients.size(), equalTo(11151));
+    }
+
+    @Test
+    public void testGetPatients_100000() throws URISyntaxException, IOException {
+        Path csvPath = Paths.get(getClass().getClassLoader().getResource("patients100000.csv").toURI());
+        List<Patient> patients = readCsv.getPatients(csvPath);
+        assertThat(patients.size(), equalTo(111165));
+    }
+}
