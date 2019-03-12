@@ -8,6 +8,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import uk.ac.ucl.entities.Patient;
 import uk.ac.ucl.io.ReadCSV;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -31,8 +32,8 @@ public class JSONFormatterTest {
 
     @Test
     public void formatPatient() throws URISyntaxException, IOException, JSONException {
-        Path csvPath = Paths.get(getClass().getClassLoader().getResource("patients1.csv").toURI());
-        List<Patient> patients = readCSV.getPatients(csvPath);
+        File csvFile = new File(getClass().getClassLoader().getResource("patients1.csv").toURI());
+        List<Patient> patients = readCSV.getPatients(csvFile);
 
         String result = formatter.formatPatients(patients);
         System.out.println(result);

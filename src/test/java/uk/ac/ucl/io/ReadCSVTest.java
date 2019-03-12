@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ucl.entities.Patient;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -24,29 +25,29 @@ public class ReadCSVTest {
 
     @Test
     public void testGetPatients_100() throws URISyntaxException, IOException {
-        Path csvPath = Paths.get(getClass().getClassLoader().getResource("patients100.csv").toURI());
-        List<Patient> patients = readCsv.getPatients(csvPath);
+        File csvFile = new File(getClass().getClassLoader().getResource("patients100.csv").toURI());
+        List<Patient> patients = readCsv.getPatients(csvFile);
         assertThat(patients.size(), equalTo(105));
     }
 
     @Test
     public void testGetPatients_1000() throws URISyntaxException, IOException {
-        Path csvPath = Paths.get(getClass().getClassLoader().getResource("patients1000.csv").toURI());
-        List<Patient> patients = readCsv.getPatients(csvPath);
+        File csvFile = new File(getClass().getClassLoader().getResource("patients1000.csv").toURI());
+        List<Patient> patients = readCsv.getPatients(csvFile);
         assertThat(patients.size(), equalTo(1116));
     }
 
     @Test
     public void testGetPatients_10000() throws URISyntaxException, IOException {
-        Path csvPath = Paths.get(getClass().getClassLoader().getResource("patients10000.csv").toURI());
-        List<Patient> patients = readCsv.getPatients(csvPath);
+        File csvFile = new File(getClass().getClassLoader().getResource("patients10000.csv").toURI());
+        List<Patient> patients = readCsv.getPatients(csvFile);
         assertThat(patients.size(), equalTo(11151));
     }
 
     @Test
     public void testGetPatients_100000() throws URISyntaxException, IOException {
-        Path csvPath = Paths.get(getClass().getClassLoader().getResource("patients100000.csv").toURI());
-        List<Patient> patients = readCsv.getPatients(csvPath);
+        File csvFile = new File(getClass().getClassLoader().getResource("patients100000.csv").toURI());
+        List<Patient> patients = readCsv.getPatients(csvFile);
         assertThat(patients.size(), equalTo(111165));
     }
 }

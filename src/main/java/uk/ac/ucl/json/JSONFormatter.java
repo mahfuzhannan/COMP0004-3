@@ -7,6 +7,9 @@ import java.util.List;
 public class JSONFormatter {
 
     public String formatPatient(Patient patient) {
+        if (patient == null) {
+            return "{}";
+        }
         return "{" +
                 "id: \""+patient.getId()+"\"," +
                 "gender: \""+patient.getGender()+"\"," +
@@ -20,6 +23,9 @@ public class JSONFormatter {
     }
 
     public String formatName(Name name) {
+        if (name == null) {
+            return "{}";
+        }
         return "{" +
                 "prefix: \"" + name.getPrefix() + "\"," +
                 "first: \"" + name.getFirst() + "\"," +
@@ -29,6 +35,9 @@ public class JSONFormatter {
     }
 
     public String formatId(Identification id) {
+        if (id == null) {
+            return "{}";
+        }
         return "{" +
                 "ssn: \""+id.getSsn()+"\"," +
                 "drivers: \""+id.getDrivers()+"\"," +
@@ -37,6 +46,9 @@ public class JSONFormatter {
     }
 
     public String formatDetails(PatientDetails details) {
+        if (details == null) {
+            return "{}";
+        }
         return "{" +
                 "maiden: \""+details.getMaiden()+"\"," +
                 "marital: \""+details.getMarital()+"\"," +
@@ -47,6 +59,9 @@ public class JSONFormatter {
     }
 
     private String formatAddress(Address address) {
+        if (address == null) {
+            return "{}";
+        }
         return "{" +
                 "address: \"" + address.getAddress() + "\"," +
                 "city: \"" + address.getCity() + "\"," +

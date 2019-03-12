@@ -3,9 +3,10 @@ package uk.ac.ucl.io;
 import uk.ac.ucl.entities.*;
 import uk.ac.ucl.enums.Gender;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -13,8 +14,8 @@ import java.util.stream.Collectors;
 
 public class ReadCSV {
 
-    public List<Patient> getPatients(Path path) throws IOException {
-        return Files.lines(path).skip(1).map(line -> {
+    public List<Patient> getPatients(File file) throws IOException {
+        return Files.lines(Paths.get(file.toURI())).skip(1).map(line -> {
 //            System.out.println(line);
             String[] data = line.split(",");
 
