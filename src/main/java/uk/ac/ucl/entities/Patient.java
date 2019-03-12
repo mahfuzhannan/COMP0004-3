@@ -8,19 +8,12 @@ import java.util.UUID;
 public class Patient {
 
     private UUID id;
-
     private Gender gender;
-
     private LocalDate birthDate;
-
     private LocalDate deathDate;
-
     private Name name;
-
     private Identification identification;
-
     private PatientDetails patientDetails;
-
     private Address address;
 
     public Patient() {
