@@ -48,4 +48,9 @@ public class Name {
     public void setSuffix(String suffix) {
         this.suffix = suffix;
     }
+
+    @Override
+    public String toString() {
+        return prefix + " " + first + " " + last + " " + suffix;
+    }
 }

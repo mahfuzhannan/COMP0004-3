@@ -38,4 +38,9 @@ public class Identification {
     public void setPassport(String passport) {
         this.passport = passport;
     }
+
+    @Override
+    public String toString() {
+        return ssn + " | " + drivers + " | " + passport;
+    }
 }

@@ -93,4 +93,9 @@ public class Patient {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return name.toString();
+    }
 }

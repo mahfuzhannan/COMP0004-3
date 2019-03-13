@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * • Has a readFile method that uses the ReadCSV class to read an input file and generate the
@@ -42,9 +43,9 @@ public class Model {
         return jsonFormatter.formatPatients(patients);
     }
 
-    public String getPatient(String uuid) {
+    public String getPatient(UUID uuid) {
         Optional<Patient> optionalPatient = patients.stream()
-                .filter(patient -> patient.getId().toString().equals(uuid))
+                .filter(patient -> patient.getId().equals(uuid))
                 .findFirst();
 
             return jsonFormatter.formatPatient(optionalPatient.get());
