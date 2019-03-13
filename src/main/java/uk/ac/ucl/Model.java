@@ -9,10 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -68,6 +66,49 @@ public class Model {
             return filePath.toAbsolutePath().toString();
         }
         return null;
+    }
+
+    public int getAverageAge() {
+        int ageTotal = 0;
+        for(Patient patient: patients) {
+            ageTotal++;
+        }
+        return ageTotal/patients.size();
+    }
+
+    public String getCommonBirthDate() {
+        Map<LocalDate, Integer> map = new HashMap<>();
+        for(Patient patient : patients) {
+            map.computeIfPresent(patient.getBirthDate(), (key, value) -> value++);
+            map.putIfAbsent(patient.getBirthDate(), 0);
+        }
+
+        Map.Entry<LocalDate, Integer> commonDate = getMostPopularEntry(map);
+        return commonDate == null ? null : commonDate.getKey().toString();
+    }
+
+    public String getCommonCity() {
+        Map<String, Integer> cityToPopularity = new HashMap<>();
+        for(Patient patient : patients) {
+            String city = patient.getAddress().getCity();
+            cityToPopularity.computeIfPresent(city, (key, value) -> value++);
+            cityToPopularity.putIfAbsent(city, 0);
+        }
+
+        Map.Entry<String, Integer> mostCommonCityEntry = getMostPopularEntry(cityToPopularity);
+        return mostCommonCityEntry == null ? null : mostCommonCityEntry.getKey().toString();
+    }
+
+    private <T> Map.Entry<T, Integer> getMostPopularEntry(Map<T, Integer> map) {
+        Map.Entry<T, Integer> mostCommonEntry = null;
+        for (Map.Entry<T, Integer> entry : map.entrySet()) {
+            if (mostCommonEntry != null && entry.getValue() > mostCommonEntry.getValue()) {
+                mostCommonEntry = entry;
+            } else {
+                mostCommonEntry = entry;
+            }
+        }
+        return mostCommonEntry;
     }
 
 }

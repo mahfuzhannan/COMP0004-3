@@ -17,8 +17,8 @@ public class View extends JFrame {
     private PatientsListPanel patientsListPanel;
     private PatientDetailsPanel patientDetailsPanel;
     private SearchPanel searchPanel;
-
     private IOPanel ioPanel;
+    private StatisticsPanel statisticsPanel;
 
 
     public View(Model model) throws HeadlessException {
@@ -57,6 +57,8 @@ public class View extends JFrame {
             }
         });
 
+        this.add(ioPanel, BorderLayout.NORTH);
+
         patientsListPanel = new PatientsListPanel();
         patientsListPanel.addListSelectionListener(e -> {
             int[] selected = patientsListPanel.getSelectionModel().getSelectedIndices();
@@ -79,8 +81,10 @@ public class View extends JFrame {
         patientsPanel.add(new JScrollPane(patientsListPanel), BorderLayout.WEST);
         patientsPanel.add(new JScrollPane(patientDetailsPanel), BorderLayout.CENTER);
 
-        this.add(ioPanel, BorderLayout.NORTH);
         this.add(patientsPanel, BorderLayout.CENTER);
+
+        statisticsPanel = new StatisticsPanel();
+        this.add(statisticsPanel, BorderLayout.SOUTH);
 
         this.setVisible(true);
     }
@@ -88,6 +92,9 @@ public class View extends JFrame {
     private void populatePatients(List<Patient> patients) {
         patientsListPanel.clearSelection();
         patientsListPanel.setPatients(patients);
+        statisticsPanel.populateAverageAge(model.getAverageAge());
+        statisticsPanel.populateCommonBirthDate(model.getCommonBirthDate());
+        statisticsPanel.populateCommonCity(model.getCommonCity());
     }
 
     private void populatePatient(Patient patient) {
