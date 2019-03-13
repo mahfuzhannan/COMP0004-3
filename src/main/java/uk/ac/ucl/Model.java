@@ -6,7 +6,9 @@ import uk.ac.ucl.json.JSONFormatter;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +59,15 @@ public class Model {
                 .findFirst();
 
         return jsonFormatter.formatPatient(optionalPatient.get());
+    }
+
+    public String savePatientsJSON(String filename) throws IOException {
+        if (patients != null && patients.size() > 0) {
+            Path filePath = Paths.get(filename);
+            Files.newBufferedWriter(filePath).write(jsonFormatter.formatPatients(patients));
+            return filePath.toAbsolutePath().toString();
+        }
+        return null;
     }
 
 }

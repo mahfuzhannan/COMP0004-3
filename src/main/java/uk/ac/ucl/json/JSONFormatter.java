@@ -11,14 +11,14 @@ public class JSONFormatter {
             return "{}";
         }
         return "{" +
-                "id: \""+patient.getId()+"\"," +
-                "gender: \""+patient.getGender()+"\"," +
-                "birthDate: \""+patient.getBirthDate()+"\"," +
-                "deathDate: \""+patient.getDeathDate()+"\"," +
-                "name:" + formatName(patient.getName()) + "," +
-                "identification:" + formatId(patient.getIdentification()) + "," +
-                "details:" + formatDetails(patient.getPatientDetails()) + "," +
-                "address:" + formatAddress(patient.getAddress()) +
+                "\"id\": \""+patient.getId()+"\"," +
+                "\"gender\": \""+patient.getGender()+"\"," +
+                "\"birthDate\": \""+patient.getBirthDate()+"\"," +
+                "\"deathDate\": \""+patient.getDeathDate()+"\"," +
+                "\"name\":" + formatName(patient.getName()) + "," +
+                "\"identification\":" + formatId(patient.getIdentification()) + "," +
+                "\"details\":" + formatDetails(patient.getPatientDetails()) + "," +
+                "\"address\":" + formatAddress(patient.getAddress()) +
                 "}";
     }
 
@@ -27,10 +27,10 @@ public class JSONFormatter {
             return "{}";
         }
         return "{" +
-                "prefix: \"" + name.getPrefix() + "\"," +
-                "first: \"" + name.getFirst() + "\"," +
-                "last: \"" + name.getLast() + "\"," +
-                "suffix: \"" + name.getSuffix() + "\"" +
+                "\"prefix\": \"" + name.getPrefix() + "\"," +
+                "\"first\": \"" + name.getFirst() + "\"," +
+                "\"last\": \"" + name.getLast() + "\"," +
+                "\"suffix\": \"" + name.getSuffix() + "\"" +
                 "}";
     }
 
@@ -39,9 +39,9 @@ public class JSONFormatter {
             return "{}";
         }
         return "{" +
-                "ssn: \""+id.getSsn()+"\"," +
-                "drivers: \""+id.getDrivers()+"\"," +
-                "passport: \""+id.getPassport()+"\"" +
+                "\"ssn\": \""+id.getSsn()+"\"," +
+                "\"drivers\": \""+id.getDrivers()+"\"," +
+                "\"passport\": \""+id.getPassport()+"\"" +
                 "}";
     }
 
@@ -50,11 +50,11 @@ public class JSONFormatter {
             return "{}";
         }
         return "{" +
-                "maiden: \""+details.getMaiden()+"\"," +
-                "marital: \""+details.getMarital()+"\"," +
-                "race: \""+details.getRace()+"\"," +
-                "ethnicity: \""+details.getEthnicity()+"\"," +
-                "birthplace: \""+details.getBirthplace()+"\"" +
+                "\"maiden\": \""+details.getMaiden()+"\"," +
+                "\"marital\": \""+details.getMarital()+"\"," +
+                "\"race\": \""+details.getRace()+"\"," +
+                "\"ethnicity\": \""+details.getEthnicity()+"\"," +
+                "\"birthplace\": \""+details.getBirthplace()+"\"" +
                 "}";
     }
 
@@ -63,10 +63,10 @@ public class JSONFormatter {
             return "{}";
         }
         return "{" +
-                "address: \"" + address.getAddress() + "\"," +
-                "city: \"" + address.getCity() + "\"," +
-                "state: \"" + address.getState() + "\"," +
-                "zip: \"" + address.getZip() + "\"" +
+                "\"address\": \"" + address.getAddress() + "\"," +
+                "\"city\": \"" + address.getCity() + "\"," +
+                "\"state\": \"" + address.getState() + "\"," +
+                "\"zip\": \"" + address.getZip() + "\"" +
                 "}";
     }
 

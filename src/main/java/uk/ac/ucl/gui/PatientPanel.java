@@ -57,7 +57,7 @@ public class PatientPanel extends JPanel {
         stateComponent = new PatientComponent(new JLabel("state"), new JTextField());
         zipComponent = new PatientComponent(new JLabel("zip"), new JTextField());
 
-        this.setLayout(new GridLayout(20, 1));
+        this.setLayout(new GridLayout(20, 0));
 
         this.add(idComponent);
         this.add(birthdateComponent);
@@ -117,13 +117,21 @@ public class PatientPanel extends JPanel {
         public PatientComponent(JLabel label, JTextField textField) {
             this.label = label;
             this.textField = textField;
+            this.textField.setColumns(20);
 
-            this.label.setSize(10, 5);
-            this.textField.setMaximumSize(new Dimension(5, 20));
+            GridBagLayout gridBagLayout = new GridBagLayout();
+            GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagLayout.setConstraints(this, gridBagConstraints);
+            this.setLayout(gridBagLayout);
 
-            this.setLayout(new GridLayout(1, 2));
-            this.add(this.label);
-            this.add(this.textField);
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.anchor = GridBagConstraints.EAST;
+
+            gridBagConstraints.weightx = 0.1;
+            this.add(this.label, gridBagConstraints);
+            gridBagConstraints.gridx = 1;
+            this.add(this.textField, gridBagConstraints);
         }
 
         public JLabel getLabel() {

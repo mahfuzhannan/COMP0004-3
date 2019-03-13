@@ -8,7 +8,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class View extends JFrame {
@@ -16,16 +15,11 @@ public class View extends JFrame {
 
     private Model model;
 
-    private JButton openFileChooserButton;
-    private JFileChooser fileChooser;
-
     private DefaultListModel<Patient> listModel;
     private ListSelectionModel selectionModel;
 
     private PatientPanel patientPanel;
 
-    private JTextField searchByName;
-    private JTextField searchByAddress;
 
     public View(Model model) throws HeadlessException {
         super(TITLE);
@@ -48,15 +42,16 @@ public class View extends JFrame {
     }
 
     private void createFileChooser() {
-        fileChooser = new JFileChooser(new File("src/main/resources"));
-        fileChooser.setDialogTitle("Select file to load");
-        fileChooser.setMultiSelectionEnabled(false);
+
     }
 
     private JPanel getFileChooserPanel() {
-        JPanel csvPanel = new JPanel(new BorderLayout());
-        csvPanel.setBorder(new TitledBorder("File Load Panel"));
-        openFileChooserButton = new JButton("Load File");
+        JPanel csvPanel = new JPanel(new GridLayout(1, 3));
+        csvPanel.setBorder(new TitledBorder("File I/O Panel"));
+        JButton openFileChooserButton = new JButton("Load CSV");
+        JFileChooser fileChooser = new JFileChooser(new File("src/main/resources"));
+        fileChooser.setDialogTitle("Select file to load");
+        fileChooser.setMultiSelectionEnabled(false);
         openFileChooserButton.addActionListener(e -> {
             int status = fileChooser.showDialog(this, "Approve");
             if (status == JFileChooser.APPROVE_OPTION) {
@@ -67,7 +62,20 @@ public class View extends JFrame {
                 }
             }
         });
-        csvPanel.add(openFileChooserButton, BorderLayout.CENTER);
+
+        JButton saveJsonButton = new JButton("Save JSON");
+        saveJsonButton.addActionListener(e -> {
+            String filename = JOptionPane.showInputDialog("Enter a filename");
+            try {
+                String fileLocation = model.savePatientsJSON(filename + ".json");
+                JOptionPane.showMessageDialog(this, "File has been saved to: " + fileLocation);
+            } catch (IOException e1) {
+                JOptionPane.showMessageDialog(this,"Failed to save patients to JSON.");
+            }
+        });
+
+        csvPanel.add(openFileChooserButton);
+        csvPanel.add(saveJsonButton);
         return csvPanel;
     }
 
@@ -85,12 +93,8 @@ public class View extends JFrame {
 
         patientJList.getSelectionModel().addListSelectionListener(e -> {
             int[] selected = selectionModel.getSelectedIndices();
-            try {
-                if(selected.length > 0) {
-                    populatePatient(listModel.get(selected[0]));
-                }
-            } catch (InvocationTargetException | IllegalAccessException e1) {
-                JOptionPane.showMessageDialog(this, "Failed to load patient details.");
+            if(selected.length > 0) {
+                populatePatient(listModel.get(selected[0]));
             }
         });
 
@@ -98,9 +102,9 @@ public class View extends JFrame {
 
         JPanel searchPanel = new JPanel(new FlowLayout());
 
-        searchByName = new JTextField();
+        JTextField searchByName = new JTextField();
         searchByName.setColumns(10);
-        searchByAddress = new JTextField();
+        JTextField searchByAddress = new JTextField();
         searchByAddress.setColumns(10);
 
         JButton search = new JButton("Filter Patients");
@@ -125,7 +129,7 @@ public class View extends JFrame {
         listModel.addAll(patients);
     }
 
-    private void populatePatient(Patient patient) throws InvocationTargetException, IllegalAccessException {
+    private void populatePatient(Patient patient) {
         patientPanel.setPatient(patient);
     }
 }
