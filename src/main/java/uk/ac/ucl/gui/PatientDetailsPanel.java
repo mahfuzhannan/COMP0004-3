@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PatientPanel extends JPanel {
+public class PatientDetailsPanel extends JPanel {
     private Map<String, PatientComponent> componentMap;
 
     private PatientComponent idComponent;
@@ -32,7 +32,7 @@ public class PatientPanel extends JPanel {
     private PatientComponent stateComponent;
     private PatientComponent zipComponent;
 
-    public PatientPanel() {
+    public PatientDetailsPanel() {
         this.setBorder(new TitledBorder("Patient Detail"));
         componentMap = new HashMap<>();
 
@@ -107,7 +107,7 @@ public class PatientPanel extends JPanel {
 
 
     public static void main(String[] args) {
-        new PatientPanel();
+        new PatientDetailsPanel();
     }
 
     private class PatientComponent extends JPanel {
