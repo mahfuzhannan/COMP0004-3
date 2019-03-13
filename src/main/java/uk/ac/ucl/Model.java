@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * • Has a readFile method that uses the ReadCSV class to read an input file and generate the
@@ -39,6 +40,13 @@ public class Model {
         return patients;
     }
 
+    public List<Patient> filterPatients(String name, String address) {
+        return patients.stream()
+                .filter(patient -> patient.getName().toString().toLowerCase().contains(name.toLowerCase()))
+                .filter(patient -> patient.getAddress().toString().toLowerCase().contains(address.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
     public String getPatients() {
         return jsonFormatter.formatPatients(patients);
     }
@@ -48,7 +56,7 @@ public class Model {
                 .filter(patient -> patient.getId().equals(uuid))
                 .findFirst();
 
-            return jsonFormatter.formatPatient(optionalPatient.get());
+        return jsonFormatter.formatPatient(optionalPatient.get());
     }
 
 }

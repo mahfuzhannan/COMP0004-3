@@ -20,8 +20,12 @@ public class View extends JFrame {
     private JFileChooser fileChooser;
 
     private DefaultListModel<Patient> listModel;
+    private ListSelectionModel selectionModel;
 
     private PatientPanel patientPanel;
+
+    private JTextField searchByName;
+    private JTextField searchByAddress;
 
     public View(Model model) throws HeadlessException {
         super(TITLE);
@@ -57,8 +61,7 @@ public class View extends JFrame {
             int status = fileChooser.showDialog(this, "Approve");
             if (status == JFileChooser.APPROVE_OPTION) {
                 try {
-                    List<Patient> patientList = model.readFile(fileChooser.getSelectedFile());
-                    listModel.addAll(patientList);
+                    populatePatients(model.readFile(fileChooser.getSelectedFile()));
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(this, "Could not load file.");
                 }
@@ -69,20 +72,23 @@ public class View extends JFrame {
     }
 
     private JPanel getPatientsPanel() {
-        JPanel patientsPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+        JPanel patientsPanel = new JPanel(new BorderLayout());
         patientsPanel.setBorder(new TitledBorder("Patients"));
 
         listModel = new DefaultListModel<>();
         JList<Patient> patientJList = new JList<>(listModel);
-        patientJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        selectionModel = patientJList.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        patientJList.setSelectionModel(selectionModel);
         patientJList.setLayoutOrientation(JList.VERTICAL);
 
 
         patientJList.getSelectionModel().addListSelectionListener(e -> {
-            ListSelectionModel selectionModel = (ListSelectionModel)e.getSource();
             int[] selected = selectionModel.getSelectedIndices();
             try {
-                populatePatient(listModel.get(selected[0]));
+                if(selected.length > 0) {
+                    populatePatient(listModel.get(selected[0]));
+                }
             } catch (InvocationTargetException | IllegalAccessException e1) {
                 JOptionPane.showMessageDialog(this, "Failed to load patient details.");
             }
@@ -90,9 +96,33 @@ public class View extends JFrame {
 
         patientPanel = new PatientPanel();
 
-        patientsPanel.add(new JScrollPane(patientJList));
-        patientsPanel.add(new JScrollPane(patientPanel));
+        JPanel searchPanel = new JPanel(new FlowLayout());
+
+        searchByName = new JTextField();
+        searchByName.setColumns(10);
+        searchByAddress = new JTextField();
+        searchByAddress.setColumns(10);
+
+        JButton search = new JButton("Filter Patients");
+        search.addActionListener(e -> {
+            populatePatients(model.filterPatients(searchByName.getText(), searchByAddress.getText()));
+        });
+
+        searchPanel.add(new JLabel("Name:"));
+        searchPanel.add(searchByName);
+        searchPanel.add(new JLabel("Address:"));
+        searchPanel.add(searchByAddress);
+        searchPanel.add(search);
+        patientsPanel.add(searchPanel, BorderLayout.NORTH);
+        patientsPanel.add(new JScrollPane(patientJList), BorderLayout.WEST);
+        patientsPanel.add(new JScrollPane(patientPanel), BorderLayout.CENTER);
         return patientsPanel;
+    }
+
+    private void populatePatients(List<Patient> patients) {
+        selectionModel.clearSelection();
+        listModel.clear();
+        listModel.addAll(patients);
     }
 
     private void populatePatient(Patient patient) throws InvocationTargetException, IllegalAccessException {
