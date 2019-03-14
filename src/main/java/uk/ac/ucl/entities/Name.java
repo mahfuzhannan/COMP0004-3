@@ -53,4 +53,14 @@ public class Name {
     public String toString() {
         return prefix + " " + first + " " + last + " " + suffix;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Name) {
+            Name other = (Name)obj;
+            return prefix.equals(other.prefix) && first.equals(other.first) && last.equals(other.last) && suffix.equals(other.suffix);
+        } else {
+            return false;
+        }
+    }
 }

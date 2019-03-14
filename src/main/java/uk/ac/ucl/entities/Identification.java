@@ -43,4 +43,17 @@ public class Identification {
     public String toString() {
         return ssn + " | " + drivers + " | " + passport;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if(obj instanceof Identification) {
+            Identification other = (Identification)obj;
+            return ssn.equals(other.ssn) && drivers.equals(other.drivers) && passport.equals(other.passport);
+        } else {
+            return false;
+        }
+    }
 }

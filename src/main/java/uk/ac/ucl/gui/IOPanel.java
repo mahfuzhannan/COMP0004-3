@@ -15,6 +15,7 @@ public class IOPanel extends JPanel {
 
     private JButton openFileChooserButton;
     private JButton saveJsonButton;
+    private JButton loadJsonButton;
 
     public IOPanel() {
         this.setLayout(new GridLayout(1, 3));
@@ -26,9 +27,11 @@ public class IOPanel extends JPanel {
         fileChooser.setMultiSelectionEnabled(false);
 
         saveJsonButton = new JButton("Save JSON");
+        loadJsonButton = new JButton("Load JSON");
 
         this.add(openFileChooserButton);
         this.add(saveJsonButton);
+        this.add(loadJsonButton);
     }
     
     public void setFileChooserActionListener(ActionListener actionListener) {
@@ -37,6 +40,10 @@ public class IOPanel extends JPanel {
 
     public void setSaveJsonActionListener(ActionListener actionListener) {
         saveJsonButton.addActionListener(actionListener);
+    }
+
+    public void setLoadJsonActionListener(ActionListener actionListener) {
+        loadJsonButton.addActionListener(actionListener);
     }
 
     public JFileChooser getFileChooser() {

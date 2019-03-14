@@ -1,6 +1,7 @@
 package uk.ac.ucl;
 
 import uk.ac.ucl.entities.Patient;
+import uk.ac.ucl.io.JsonFileHandler;
 import uk.ac.ucl.io.ReadCSV;
 import uk.ac.ucl.json.JSONFormatter;
 
@@ -28,11 +29,13 @@ public class Model {
     private ReadCSV readCSV;
     private JSONFormatter jsonFormatter;
     private List<Patient> patients;
+    private JsonFileHandler jsonFileHandler;
 
     public Model() {
         readCSV = new ReadCSV();
         jsonFormatter = new JSONFormatter();
         patients = Collections.emptyList();
+        jsonFileHandler = new JsonFileHandler();
     }
 
     public List<Patient> readFile(File file) throws IOException {
@@ -48,7 +51,7 @@ public class Model {
     }
 
     public String getPatients() {
-        return jsonFormatter.formatPatients(patients);
+        return jsonFormatter.serializePatients(patients);
     }
 
     public String getPatient(UUID uuid) {
@@ -56,16 +59,15 @@ public class Model {
                 .filter(patient -> patient.getId().equals(uuid))
                 .findFirst();
 
-        return jsonFormatter.formatPatient(optionalPatient.get());
+        return jsonFormatter.serializePatient(optionalPatient.get());
     }
 
     public String savePatientsJSON(String filename) throws IOException {
-        if (patients != null && patients.size() > 0) {
-            Path filePath = Paths.get(filename);
-            Files.newBufferedWriter(filePath).write(jsonFormatter.formatPatients(patients));
-            return filePath.toAbsolutePath().toString();
-        }
-        return null;
+        return jsonFileHandler.write(patients, filename);
+    }
+
+    public List<Patient> loadPatientsJSON(File file) throws IOException {
+        return jsonFileHandler.read(file);
     }
 
     public int getAverageAge() {

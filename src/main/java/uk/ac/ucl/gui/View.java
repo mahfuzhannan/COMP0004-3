@@ -37,7 +37,7 @@ public class View extends JFrame {
         ioPanel = new IOPanel();
         ioPanel.setFileChooserActionListener(e -> {
             JFileChooser fileChooser = ioPanel.getFileChooser();
-            int status = fileChooser.showDialog(this, "Approve");
+            int status = fileChooser.showDialog(this, "Load");
             if (status == JFileChooser.APPROVE_OPTION) {
                 try {
                     populatePatients(model.readFile(fileChooser.getSelectedFile()));
@@ -49,11 +49,25 @@ public class View extends JFrame {
 
         ioPanel.setSaveJsonActionListener(e -> {
             String filename = JOptionPane.showInputDialog("Enter a filename");
-            try {
-                String fileLocation = model.savePatientsJSON(filename + ".json");
-                JOptionPane.showMessageDialog(this, "File has been saved to: " + fileLocation);
-            } catch (IOException e1) {
-                JOptionPane.showMessageDialog(this, "Failed to save patients to JSON.");
+            if (filename != null) {
+                try {
+                    String fileLocation = model.savePatientsJSON(filename + ".json");
+                    JOptionPane.showMessageDialog(this, "File has been saved to: " + fileLocation);
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(this, "Failed to save patients to JSON.");
+                }
+            }
+        });
+
+        ioPanel.setLoadJsonActionListener(e -> {
+            JFileChooser fileChooser = ioPanel.getFileChooser();
+            int status = fileChooser.showDialog(this, "Load");
+            if (status == JFileChooser.APPROVE_OPTION) {
+                try {
+                    populatePatients(model.loadPatientsJSON(fileChooser.getSelectedFile()));
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(this, "Could not load file.");
+                }
             }
         });
 

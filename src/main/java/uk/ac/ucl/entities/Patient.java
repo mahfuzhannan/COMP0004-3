@@ -98,4 +98,14 @@ public class Patient {
     public String toString() {
         return name.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Patient) {
+           Patient other = (Patient)obj;
+           return id.equals(other.id) && name.equals(other.name) && identification.equals(other.identification);
+        } else {
+            return false;
+        }
+    }
 }

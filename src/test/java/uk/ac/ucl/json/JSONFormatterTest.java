@@ -31,12 +31,11 @@ public class JSONFormatterTest {
     }
 
     @Test
-    public void formatPatient() throws URISyntaxException, IOException, JSONException {
+    public void serializeAndDeserializePatients_1() throws URISyntaxException, IOException, JSONException {
         File csvFile = new File(getClass().getClassLoader().getResource("patients1.csv").toURI());
         List<Patient> patients = readCSV.getPatients(csvFile);
 
-        String result = formatter.formatPatients(patients);
-        System.out.println(result);
+        String result = formatter.serializePatients(patients);
         assertThat(patients.size(), equalTo(1));
         String expectedJson = "[{" +
                 "id:\"3e9fd20e-b81c-4698-a7c2-0559e10361fa\", gender:\"F\", birthDate:\"1979-08-24\", deathDate:\"null\"," +
@@ -46,5 +45,19 @@ public class JSONFormatterTest {
                 "address:{address: \"678 Trantow Overpass\",city: \"New Bedford\",state: \"Massachusetts\",zip: \"02740\"}" +
                 "}]";
         JSONAssert.assertEquals(expectedJson, result, JSONCompareMode.STRICT);
+
+        List<Patient> resultPatients = formatter.deserializePatients(result);
+        assertThat(resultPatients, equalTo(patients));
+    }
+
+    @Test
+    public void serializeAndDeserializePatients_100() throws URISyntaxException, IOException, JSONException {
+        File csvFile = new File(getClass().getClassLoader().getResource("patients100.csv").toURI());
+        List<Patient> patients = readCSV.getPatients(csvFile);
+
+        String result = formatter.serializePatients(patients);
+        List<Patient> resultPatients = formatter.deserializePatients(result);
+
+        assertThat(resultPatients, equalTo(patients));
     }
 }
