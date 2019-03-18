@@ -89,10 +89,10 @@ public class PatientDetailsPanel extends JPanel {
         ssnComponent.getTextField().setText(patient.getIdentification().getSsn().toString());
         driversComponent.getTextField().setText(patient.getIdentification().getDrivers().toString());
         passportComponent.getTextField().setText(patient.getIdentification().getPassport().toString());
-        prefixComponent.getTextField().setText(patient.getName().getPrefix().toString());
-        firstComponent.getTextField().setText(patient.getName().getFirst().toString());
-        lastComponent.getTextField().setText(patient.getName().getLast().toString());
-        suffixComponent.getTextField().setText(patient.getName().getSuffix().toString());
+        prefixComponent.getTextField().setText(patient.getPatientName().getPrefix().toString());
+        firstComponent.getTextField().setText(patient.getPatientName().getFirst().toString());
+        lastComponent.getTextField().setText(patient.getPatientName().getLast().toString());
+        suffixComponent.getTextField().setText(patient.getPatientName().getSuffix().toString());
         maidenComponent.getTextField().setText(patient.getPatientDetails().getMaiden().toString());
         maritalComponent.getTextField().setText(patient.getPatientDetails().getMarital().toString());
         raceComponent.getTextField().setText(patient.getPatientDetails().getRace().toString());

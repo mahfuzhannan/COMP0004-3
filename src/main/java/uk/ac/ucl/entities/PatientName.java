@@ -1,16 +1,16 @@
 package uk.ac.ucl.entities;
 
-public class Name {
+public class PatientName {
 
     private String prefix;
     private String first;
     private String last;
     private String suffix;
 
-    public Name() {
+    public PatientName() {
     }
 
-    public Name(String prefix, String first, String last, String suffix) {
+    public PatientName(String prefix, String first, String last, String suffix) {
         this.prefix = prefix;
         this.first = first;
         this.last = last;
@@ -56,8 +56,8 @@ public class Name {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Name) {
-            Name other = (Name)obj;
+        if (obj instanceof PatientName) {
+            PatientName other = (PatientName)obj;
             return prefix.equals(other.prefix) && first.equals(other.first) && last.equals(other.last) && suffix.equals(other.suffix);
         } else {
             return false;

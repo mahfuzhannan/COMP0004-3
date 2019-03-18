@@ -45,8 +45,8 @@ public class ReadCSV {
             Address address = new Address(addressStr, city, state, zip);
             Identification identification = new Identification(ssn, drivers, passport);
             PatientDetails patientDetails = new PatientDetails(maiden, marital, race, ethnicity, birthplace);
-            Name name = new Name(prefix, first, last, suffix);
-            return new Patient(id, gender, birthdate, deathdate, name, identification, patientDetails, address);
+            PatientName patientName = new PatientName(prefix, first, last, suffix);
+            return new Patient(id, gender, birthdate, deathdate, patientName, identification, patientDetails, address);
         }).collect(Collectors.toList());
     }
 

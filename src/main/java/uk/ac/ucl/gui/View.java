@@ -1,12 +1,14 @@
 package uk.ac.ucl.gui;
 
 import uk.ac.ucl.Model;
+import uk.ac.ucl.db.DatabaseConnector;
 import uk.ac.ucl.entities.Patient;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class View extends JFrame {
@@ -42,7 +44,7 @@ public class View extends JFrame {
                 try {
                     populatePatients(model.readFile(fileChooser.getSelectedFile()));
                 } catch (IOException e1) {
-                    JOptionPane.showMessageDialog(this, "Could not load file.");
+                    showErrorMessage("Could not load file.");
                 }
             }
         });
@@ -52,9 +54,9 @@ public class View extends JFrame {
             if (filename != null) {
                 try {
                     String fileLocation = model.savePatientsJSON(filename + ".json");
-                    JOptionPane.showMessageDialog(this, "File has been saved to: " + fileLocation);
+                    showInfoMessage("File has been saved to: " + fileLocation);
                 } catch (IOException e1) {
-                    JOptionPane.showMessageDialog(this, "Failed to save patients to JSON.");
+                    showErrorMessage("Failed to save patients to JSON.");
                 }
             }
         });
@@ -66,8 +68,27 @@ public class View extends JFrame {
                 try {
                     populatePatients(model.loadPatientsJSON(fileChooser.getSelectedFile()));
                 } catch (IOException e1) {
-                    JOptionPane.showMessageDialog(this, "Could not load file.");
+                    showErrorMessage("Could not load file.");
                 }
+            }
+        });
+
+        ioPanel.setSaveDatabaseActionListener(e -> {
+            try {
+                model.savePatientsDB();
+                showInfoMessage("Saved to database!");
+            } catch (SQLException | ClassNotFoundException err) {
+                err.printStackTrace();
+                showErrorMessage("Failed to save data");
+            }
+        });
+
+        ioPanel.setLoadDatabaseActionListener(e -> {
+            try {
+                populatePatients(model.loadPatientsFromDB());
+            } catch (SQLException | ClassNotFoundException e1) {
+                e1.printStackTrace();
+                showErrorMessage("Failed to load data from database" );
             }
         });
 
@@ -113,5 +134,13 @@ public class View extends JFrame {
 
     private void populatePatient(Patient patient) {
         patientDetailsPanel.setPatient(patient);
+    }
+
+    private void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(this, message, "An error occured", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void showInfoMessage(String message) {
+        JOptionPane.showMessageDialog(this, message, "Information", JOptionPane.INFORMATION_MESSAGE);
     }
 }

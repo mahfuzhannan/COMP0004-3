@@ -20,7 +20,7 @@ public class SearchPanel extends JPanel {
 
         searchButton = new JButton("Filter Patients");
 
-        this.add(new JLabel("Name:"));
+        this.add(new JLabel("PatientName:"));
         this.add(searchByName);
         this.add(new JLabel("Address:"));
         this.add(searchByAddress);

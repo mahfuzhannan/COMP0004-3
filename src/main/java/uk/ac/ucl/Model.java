@@ -1,5 +1,6 @@
 package uk.ac.ucl;
 
+import uk.ac.ucl.daos.PatientDao;
 import uk.ac.ucl.entities.Patient;
 import uk.ac.ucl.io.JsonFileHandler;
 import uk.ac.ucl.io.ReadCSV;
@@ -7,9 +8,7 @@ import uk.ac.ucl.json.JSONFormatter;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,12 +29,14 @@ public class Model {
     private JSONFormatter jsonFormatter;
     private List<Patient> patients;
     private JsonFileHandler jsonFileHandler;
+    private PatientDao patientDao;
 
     public Model() {
         readCSV = new ReadCSV();
         jsonFormatter = new JSONFormatter();
         patients = Collections.emptyList();
         jsonFileHandler = new JsonFileHandler();
+        patientDao = new PatientDao();
     }
 
     public List<Patient> readFile(File file) throws IOException {
@@ -45,7 +46,7 @@ public class Model {
 
     public List<Patient> filterPatients(String name, String address) {
         return patients.stream()
-                .filter(patient -> patient.getName().toString().toLowerCase().contains(name.toLowerCase()))
+                .filter(patient -> patient.getPatientName().toString().toLowerCase().contains(name.toLowerCase()))
                 .filter(patient -> patient.getAddress().toString().toLowerCase().contains(address.toLowerCase()))
                 .collect(Collectors.toList());
     }
@@ -67,7 +68,17 @@ public class Model {
     }
 
     public List<Patient> loadPatientsJSON(File file) throws IOException {
-        return jsonFileHandler.read(file);
+        patients = jsonFileHandler.read(file);
+        return patients;
+    }
+
+    public void savePatientsDB() throws SQLException, ClassNotFoundException {
+        patientDao.savePatients(patients);
+    }
+
+    public List<Patient> loadPatientsFromDB() throws SQLException, ClassNotFoundException {
+        patients = patientDao.getPatients();
+        return patients;
     }
 
     public int getAverageAge() {

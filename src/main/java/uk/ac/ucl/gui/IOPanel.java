@@ -16,6 +16,8 @@ public class IOPanel extends JPanel {
     private JButton openFileChooserButton;
     private JButton saveJsonButton;
     private JButton loadJsonButton;
+    private JButton saveDatabaseButton;
+    private JButton loadDatabaseButton;
 
     public IOPanel() {
         this.setLayout(new GridLayout(1, 3));
@@ -28,10 +30,14 @@ public class IOPanel extends JPanel {
 
         saveJsonButton = new JButton("Save JSON");
         loadJsonButton = new JButton("Load JSON");
+        saveDatabaseButton = new JButton("Save to Database");
+        loadDatabaseButton = new JButton("Load from Database");
 
         this.add(openFileChooserButton);
         this.add(saveJsonButton);
         this.add(loadJsonButton);
+        this.add(saveDatabaseButton);
+        this.add(loadDatabaseButton);
     }
     
     public void setFileChooserActionListener(ActionListener actionListener) {
@@ -44,6 +50,14 @@ public class IOPanel extends JPanel {
 
     public void setLoadJsonActionListener(ActionListener actionListener) {
         loadJsonButton.addActionListener(actionListener);
+    }
+
+    public void setSaveDatabaseActionListener(ActionListener actionListener) {
+        saveDatabaseButton.addActionListener(actionListener);
+    }
+
+    public void setLoadDatabaseActionListener(ActionListener actionListener) {
+        loadDatabaseButton.addActionListener(actionListener);
     }
 
     public JFileChooser getFileChooser() {
