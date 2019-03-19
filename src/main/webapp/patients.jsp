@@ -23,8 +23,9 @@
         <tbody>
         <%
             List<Patient> patients = (List<Patient>) request.getAttribute("patients");
-            Integer prev = (Integer) request.getAttribute("prev");
-            Integer next = (Integer) request.getAttribute("next");
+            Integer currentPageNo = (Integer) request.getAttribute("pageNo");
+            String name = (String) request.getAttribute("name");
+            String address = (String) request.getAttribute("address");
 
             for (Patient patient : patients) {
         %>
@@ -40,12 +41,11 @@
         </tbody>
         <div class="row col-6">
             <form action="/patients" method="get">
-                <input type="hidden" name="page" value="<%=prev%>">
-                <input type="submit" value="&lt;&lt; PREV" class="btn btn-primary">
-            </form>
-            <form action="/patients" method="get">
-                <input type="hidden" name="page" value="<%=next%>">
-                <input type="submit" value="NEXT &gt;&gt;" class="btn btn-primary">
+                <input type="hidden" name="page" value="<%=currentPageNo%>">
+                <input type="hidden" name="name" value="<%=name%>">
+                <input type="hidden" name="address" value="<%=address%>">
+                <input type="submit" name="direction" value="prev" class="btn btn-primary">
+                <input type="submit" name="direction" value="next" class="btn btn-primary">
             </form>
         </div>
     </table>

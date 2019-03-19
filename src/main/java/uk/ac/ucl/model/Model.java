@@ -51,6 +51,26 @@ public class Model {
                 .collect(Collectors.toList());
     }
 
+    public List<Patient> filterPatientsByName(String name) {
+        if(name == null) {
+            return patients;
+        } else {
+            return patients.stream()
+                    .filter(patient -> patient.getPatientName().toString().toLowerCase().contains(name.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    public List<Patient> filterPatientsByAddress(String address) {
+        if(address == null) {
+            return patients;
+        } else {
+            return patients.stream()
+                    .filter(patient -> patient.getAddress().toString().toLowerCase().contains(address.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+    }
+
     public String getPatientsAsJson() {
         return jsonFormatter.serializePatients(patients);
     }

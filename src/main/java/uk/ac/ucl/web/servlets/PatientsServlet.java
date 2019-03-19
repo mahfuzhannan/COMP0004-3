@@ -26,28 +26,45 @@ public class PatientsServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Model model = ModelFactory.getModel();
         String name = request.getParameter("name");
-        String address = request.getParameter("address");
-        List<Patient> patients;
-        if(name == null && address == null) {
-            patients = model.getPatients();
-        } else {
-            patients = model.filterPatients(name, address);
+        if(name == null) {
+            name = "";
         }
+        String address = request.getParameter("address");
+        if(address == null) {
+            address = "";
+        }
+        List<Patient> patients;
+        patients = model.filterPatients(name, address);
 
-        String pageParam = request.getParameter("page");
-        int page = 1;
+        String pageParam = request.getParameter("pageNo");
+        int page = 0;
 
         if(pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
 
+        String direction = request.getParameter("direction");
+        if (direction != null) {
+            if(direction.equalsIgnoreCase("next")) {
+                page = page+1;
+            } else {
+                page = page-1;
+            }
+        }
+
+        if (page < 0) {
+            page = 0;
+        }
+
+        if(page*PAGE_SIZE > patients.size()) {
+            page = page - 1;
+        }
         patients = patients.stream().skip(page * PAGE_SIZE).limit(PAGE_SIZE).collect(Collectors.toList());
 
         request.setAttribute("patients", patients);
         request.setAttribute("name", name);
         request.setAttribute("address", address);
-        request.setAttribute("prev", page-1);
-        request.setAttribute("next", page+1);
+        request.setAttribute("pageNo", page);
         ServletContext context = getServletContext();
         RequestDispatcher dispatch = context.getRequestDispatcher("/patients.jsp");
         dispatch.forward(request, response);
