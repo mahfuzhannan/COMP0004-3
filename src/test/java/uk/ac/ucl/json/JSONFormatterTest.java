@@ -11,8 +11,6 @@ import uk.ac.ucl.io.ReadCSV;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -52,7 +50,7 @@ public class JSONFormatterTest {
 
     @Test
     public void serializeAndDeserializePatients_100() throws URISyntaxException, IOException, JSONException {
-        File csvFile = new File(getClass().getClassLoader().getResource("patients100.csv").toURI());
+        File csvFile = new File(getClass().getClassLoader().getResource("data/patients100.csv").toURI());
         List<Patient> patients = readCSV.getPatients(csvFile);
 
         String result = formatter.serializePatients(patients);

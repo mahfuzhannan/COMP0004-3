@@ -1,7 +1,6 @@
 package uk.ac.ucl.gui;
 
-import uk.ac.ucl.Model;
-import uk.ac.ucl.db.DatabaseConnector;
+import uk.ac.ucl.model.Model;
 import uk.ac.ucl.entities.Patient;
 
 import javax.swing.*;

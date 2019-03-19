@@ -1,13 +1,10 @@
 package uk.ac.ucl.gui;
 
-import uk.ac.ucl.Model;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 public class IOPanel extends JPanel {
 

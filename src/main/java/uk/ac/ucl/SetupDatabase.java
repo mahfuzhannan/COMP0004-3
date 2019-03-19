@@ -12,8 +12,8 @@ import java.sql.Statement;
 public class SetupDatabase {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, URISyntaxException, IOException {
-        String clearStr = Files.readString(Paths.get(SetupDatabase.class.getResource("/clear.sql").toURI()));
-        String schemaStr = Files.readString(Paths.get(SetupDatabase.class.getResource("/schema.sql").toURI()));
+        String clearStr = Files.readString(Paths.get(SetupDatabase.class.getResource("/sql/clear.sql").toURI()));
+        String schemaStr = Files.readString(Paths.get(SetupDatabase.class.getResource("/sql/schema.sql").toURI()));
         Statement statement = DatabaseConnector.getInstance().getStatement();
 
         for(String query : clearStr.split(";")) {
