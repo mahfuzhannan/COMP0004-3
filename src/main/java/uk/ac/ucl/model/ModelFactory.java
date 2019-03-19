@@ -19,7 +19,7 @@ public class ModelFactory
     {
       model = new Model();
       // Note where the .csv file is in the data directory, and the pathname to locate it.
-      model.readFile(new File("./data/patients100.csv"));
+      model.readFile(new File("./data/patients1000.csv"));
     }
     return model;
   }

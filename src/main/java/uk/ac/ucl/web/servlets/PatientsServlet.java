@@ -23,50 +23,55 @@ public class PatientsServlet extends HttpServlet {
 
     private static final Integer PAGE_SIZE = 15;
 
+    public static final String FIRSTNAME_PARAM = "firstName";
+    public static final String LASTNAME_PARAM = "lastName";
+    public static final String GENDER_PARAM = "gender";
+    public static final String ADDRESS_PARAM = "address";
+    public static final String PAGENO_PARAM = "pageNo";
+    public static final String PAGELIMIT_PARAM = "pageLimit";
+    public static final String PATIENTS_PARAM = "patients";
+
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Model model = ModelFactory.getModel();
-        String name = request.getParameter("name");
-        if(name == null) {
-            name = "";
-        }
-        String address = request.getParameter("address");
-        if(address == null) {
-            address = "";
-        }
-        List<Patient> patients;
-        patients = model.filterPatients(name, address);
+        String firstName = request.getParameter(FIRSTNAME_PARAM);
+        String lastName = request.getParameter(LASTNAME_PARAM);
+        String gender = request.getParameter(GENDER_PARAM);
+        String address = request.getParameter(ADDRESS_PARAM);
+        String pageParam = request.getParameter(PAGENO_PARAM);
 
-        String pageParam = request.getParameter("pageNo");
-        int page = 0;
+        List<Patient> patients = model.filterPatients(firstName, lastName, gender, address);
 
-        if(pageParam != null) {
-            page = Integer.parseInt(pageParam);
-        }
-
-        String direction = request.getParameter("direction");
-        if (direction != null) {
-            if(direction.equalsIgnoreCase("next")) {
-                page = page+1;
-            } else {
-                page = page-1;
-            }
-        }
-
-        if (page < 0) {
-            page = 0;
-        }
-
-        if(page*PAGE_SIZE > patients.size()) {
-            page = page - 1;
-        }
+        int page = getPage(pageParam, patients.size());
+        int pageLimit = patients.size() / PAGE_SIZE;
         patients = patients.stream().skip(page * PAGE_SIZE).limit(PAGE_SIZE).collect(Collectors.toList());
 
-        request.setAttribute("patients", patients);
-        request.setAttribute("name", name);
-        request.setAttribute("address", address);
-        request.setAttribute("pageNo", page);
+        request.setAttribute(PATIENTS_PARAM, patients);
+        request.setAttribute(FIRSTNAME_PARAM, firstName);
+        request.setAttribute(LASTNAME_PARAM, lastName);
+        request.setAttribute(GENDER_PARAM, gender);
+        request.setAttribute(ADDRESS_PARAM, address);
+        request.setAttribute(PAGENO_PARAM, page);
+        request.setAttribute(PAGELIMIT_PARAM, pageLimit);
+
         ServletContext context = getServletContext();
         RequestDispatcher dispatch = context.getRequestDispatcher("/patients.jsp");
         dispatch.forward(request, response);
+    }
+
+    private int getPage(String pageParam, int limit) {
+        int page = 1;
+
+        if(pageParam != null && !"".equals(pageParam)) {
+            page = Integer.parseInt(pageParam);
+        }
+
+        if (page < 1) {
+            page = 1;
+        }
+
+        if(page * PAGE_SIZE > limit) {
+            page = page - 1;
+        }
+        return page;
     }
 }

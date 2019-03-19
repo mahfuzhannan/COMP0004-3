@@ -2,6 +2,7 @@ package uk.ac.ucl.model;
 
 import uk.ac.ucl.daos.PatientDao;
 import uk.ac.ucl.entities.Patient;
+import uk.ac.ucl.enums.Gender;
 import uk.ac.ucl.io.JsonFileHandler;
 import uk.ac.ucl.io.ReadCSV;
 import uk.ac.ucl.json.JSONFormatter;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * • Has a readFile method that uses the ReadCSV class to read an input file and generate the
@@ -44,31 +46,21 @@ public class Model {
         return patients;
     }
 
-    public List<Patient> filterPatients(String name, String address) {
-        return patients.stream()
-                .filter(patient -> patient.getPatientName().toString().toLowerCase().contains(name.toLowerCase()))
-                .filter(patient -> patient.getAddress().toString().toLowerCase().contains(address.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-
-    public List<Patient> filterPatientsByName(String name) {
-        if(name == null) {
-            return patients;
-        } else {
-            return patients.stream()
-                    .filter(patient -> patient.getPatientName().toString().toLowerCase().contains(name.toLowerCase()))
-                    .collect(Collectors.toList());
+    public List<Patient> filterPatients(String firstName, String lastName, String gender, String address) {
+        Stream<Patient> patientStream = patients.stream();
+        if(firstName != null &&  !"".equals(firstName)) {
+            patientStream = patientStream.filter(patient -> patient.getPatientName().getFirst().toLowerCase().contains(firstName.toLowerCase()));
         }
-    }
-
-    public List<Patient> filterPatientsByAddress(String address) {
-        if(address == null) {
-            return patients;
-        } else {
-            return patients.stream()
-                    .filter(patient -> patient.getAddress().toString().toLowerCase().contains(address.toLowerCase()))
-                    .collect(Collectors.toList());
+        if(lastName != null && !"".equals(lastName)) {
+            patientStream = patientStream.filter(patient -> patient.getPatientName().getLast().toLowerCase().contains(lastName.toLowerCase()));
         }
+        if(gender != null && !"".equals(gender)) {
+            patientStream = patientStream.filter(patient -> gender.equalsIgnoreCase(patient.getGender().name()));
+        }
+        if(address != null && !"".equals(address)) {
+            patientStream = patientStream.filter(patient -> patient.getAddress().getAddress().toLowerCase().contains(address.toLowerCase()));
+        }
+        return patientStream.collect(Collectors.toList());
     }
 
     public String getPatientsAsJson() {

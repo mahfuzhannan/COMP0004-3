@@ -60,4 +60,15 @@ public class PatientDetails {
     public void setBirthplace(String birthplace) {
         this.birthplace = birthplace;
     }
+
+    @Override
+    public String toString() {
+        return "PatientDetails{" +
+                "maiden='" + maiden + '\'' +
+                ", marital='" + marital + '\'' +
+                ", race='" + race + '\'' +
+                ", ethnicity='" + ethnicity + '\'' +
+                ", birthplace='" + birthplace + '\'' +
+                '}';
+    }
 }
