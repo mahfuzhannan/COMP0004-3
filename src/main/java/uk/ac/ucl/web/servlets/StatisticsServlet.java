@@ -39,15 +39,17 @@ public class StatisticsServlet extends HttpServlet {
 
         List<Patient> patients = model.getPatients();
 
-        Patient youngest = patients.stream().sorted(Comparator.comparing(Patient::getBirthDate)).findFirst().get();
-        Patient oldest = patients.stream().sorted(Comparator.comparing(Patient::getBirthDate).reversed()).findFirst().get();
-        double averageAge = patients.stream().collect(Collectors.averagingDouble(p -> getAge(p.getBirthDate())));
-        Map<Integer, Long> ageRange = patients.stream().map(p -> ((getAge(p.getBirthDate()))/10)*10).sorted().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        request.setAttribute(YOUNGEST_PARAM, youngest);
-        request.setAttribute(OLDEST_PARAM, oldest);
-        request.setAttribute(AVERAGEAGE_PARAM, averageAge);
-        request.setAttribute(AGERANGE_PARAM, new TreeMap(ageRange));
-        request.setAttribute(TOTAL_PARAM, patients.size());
+        if(patients != null && patients.size() > 0) {
+            Patient oldest = patients.stream().sorted(Comparator.comparing(Patient::getBirthDate)).findFirst().get();
+            Patient youngest = patients.stream().sorted(Comparator.comparing(Patient::getBirthDate).reversed()).findFirst().get();
+            double averageAge = patients.stream().collect(Collectors.averagingDouble(p -> getAge(p.getBirthDate())));
+            Map<Integer, Long> ageRange = patients.stream().map(p -> ((getAge(p.getBirthDate())) / 10) * 10).sorted().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+            request.setAttribute(YOUNGEST_PARAM, youngest);
+            request.setAttribute(OLDEST_PARAM, oldest);
+            request.setAttribute(AVERAGEAGE_PARAM, averageAge);
+            request.setAttribute(AGERANGE_PARAM, new TreeMap(ageRange));
+            request.setAttribute(TOTAL_PARAM, patients.size());
+        }
 
         ServletContext context = getServletContext();
         RequestDispatcher dispatch = context.getRequestDispatcher("/statistics.jsp");
