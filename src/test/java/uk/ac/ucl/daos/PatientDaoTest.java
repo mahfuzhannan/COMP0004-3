@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,7 +30,7 @@ public class PatientDaoTest {
     @Before
     public void setup() throws SQLException, ClassNotFoundException, URISyntaxException, IOException {
         DatabaseConnector.setDatabasePath(TEST_DB);
-        String schemaStr = Files.readString(Paths.get(SetupDatabase.class.getResource("/sql/schema.sql").toURI()));
+        String schemaStr = Files.readString(Paths.get(SetupDatabase.class.getResource("/schema.sql").toURI()));
         Statement statement = DatabaseConnector.getInstance().getStatement();
 
         for(String query : schemaStr.split(";")) {
@@ -70,7 +71,7 @@ public class PatientDaoTest {
 
     @Test
     public void testLoadPatients100() throws URISyntaxException, IOException, SQLException, ClassNotFoundException {
-        List<Patient> patients = new ReadCSV().getPatients(new File(getClass().getResource("/data/patients100.csv").toURI()));
+        List<Patient> patients = new ReadCSV().getPatients(new File(getClass().getResource("/patients100.csv").toURI()));
         patientDao.savePatients(patients);
         assertThat(patients.size(), equalTo(105));
         assertThat(patientDao.getPatients(), equalTo(patients));

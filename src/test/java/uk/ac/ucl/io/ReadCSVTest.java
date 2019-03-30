@@ -7,6 +7,8 @@ import uk.ac.ucl.entities.Patient;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -23,28 +25,28 @@ public class ReadCSVTest {
 
     @Test
     public void testGetPatients_100() throws URISyntaxException, IOException {
-        File csvFile = new File(getClass().getClassLoader().getResource("data/patients100.csv").toURI());
+        File csvFile = new File(getClass().getClassLoader().getResource("patients100.csv").toURI());
         List<Patient> patients = readCsv.getPatients(csvFile);
         assertThat(patients.size(), equalTo(105));
     }
 
     @Test
     public void testGetPatients_1000() throws URISyntaxException, IOException {
-        File csvFile = new File(getClass().getClassLoader().getResource("data/patients1000.csv").toURI());
+        File csvFile = new File(getClass().getClassLoader().getResource("patients1000.csv").toURI());
         List<Patient> patients = readCsv.getPatients(csvFile);
         assertThat(patients.size(), equalTo(1116));
     }
 
     @Test
     public void testGetPatients_10000() throws URISyntaxException, IOException {
-        File csvFile = new File(getClass().getClassLoader().getResource("data/patients10000.csv").toURI());
+        File csvFile = new File(getClass().getClassLoader().getResource("patients10000.csv").toURI());
         List<Patient> patients = readCsv.getPatients(csvFile);
         assertThat(patients.size(), equalTo(11151));
     }
 
     @Test
     public void testGetPatients_100000() throws URISyntaxException, IOException {
-        File csvFile = new File(getClass().getClassLoader().getResource("data/patients100000.csv").toURI());
+        File csvFile = new File(getClass().getClassLoader().getResource("patients100000.csv").toURI());
         List<Patient> patients = readCsv.getPatients(csvFile);
         assertThat(patients.size(), equalTo(111165));
     }
