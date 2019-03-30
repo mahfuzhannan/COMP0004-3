@@ -2,6 +2,7 @@ package uk.ac.ucl.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 // This class gives access to the model to any other class that needs it.
 // Calling the static method getModel (i.e., ModelFactory.getModel()) returns
@@ -13,8 +14,7 @@ public class ModelFactory
 {
   private static Model model;
 
-  public static Model getModel() throws IOException
-  {
+  public static Model getModel() throws IOException {
     if (model == null)
     {
       model = new Model();
